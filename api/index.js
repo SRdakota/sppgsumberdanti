@@ -13,7 +13,6 @@ app.use(cors());
 // ==========================================
 const cache = {};
 const CACHE_DURATION_MS = 3 * 60 * 1000; // 3 minutes
-let cachedPhpSession = '';
 
 function getCacheKey(kabkota, tanggal) {
     return `${kabkota}_${tanggal}`;
@@ -35,75 +34,28 @@ function setCache(key, data) {
 }
 
 // ==========================================
-// SESSION COOKIE HELPER
-// ==========================================
-function getFreshCookie() {
-    return new Promise((resolve) => {
-        const options = {
-            hostname: 'siskaperbapo.jatimprov.go.id',
-            port: 443,
-            path: '/harga/tabel',
-            method: 'GET',
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7'
-            }
-        };
-
-        const req = http.request(options, (res) => {
-            const cookies = res.headers['set-cookie'] || [];
-            const phpSession = cookies.find(c => c.startsWith('PHPSESSID'));
-            const sessionStr = phpSession ? phpSession.split(';')[0] : '';
-            if (sessionStr) {
-                cachedPhpSession = sessionStr;
-            }
-            resolve(sessionStr);
-        });
-
-        req.on('error', () => resolve(''));
-        req.setTimeout(8000, () => {
-            req.destroy();
-            resolve('');
-        });
-        req.end();
-    });
-}
-
-// ==========================================
 // FETCH FROM SISKAPERBAPO
 // ==========================================
-async function fetchFromSiskaperbapo(kabkota, tanggal) {
-    let cookie = cachedPhpSession;
-    if (!cookie) {
-        cookie = await getFreshCookie();
-    }
-
+function fetchFromSiskaperbapo(kabkota, tanggal) {
     return new Promise((resolve, reject) => {
         const postData = `tanggal=${encodeURIComponent(tanggal)}&kabkota=${encodeURIComponent(kabkota)}&pasar=`;
-
-        const headers = {
-            'Host': 'siskaperbapo.jatimprov.go.id',
-            'Origin': 'https://siskaperbapo.jatimprov.go.id',
-            'Referer': 'https://siskaperbapo.jatimprov.go.id/harga/tabel',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData),
-            'X-Requested-With': 'XMLHttpRequest',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7'
-        };
-
-        if (cookie) {
-            headers['Cookie'] = cookie;
-        }
 
         const options = {
             hostname: 'siskaperbapo.jatimprov.go.id',
             port: 443,
             path: '/harga/tabel.nodesign/',
             method: 'POST',
-            headers: headers
+            headers: {
+                'Host': 'siskaperbapo.jatimprov.go.id',
+                'Origin': 'https://siskaperbapo.jatimprov.go.id',
+                'Referer': 'https://siskaperbapo.jatimprov.go.id/harga/tabel',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(postData),
+                'X-Requested-With': 'XMLHttpRequest',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7'
+            }
         };
 
         const req = http.request(options, (res) => {
@@ -112,9 +64,6 @@ async function fetchFromSiskaperbapo(kabkota, tanggal) {
             res.on('end', () => {
                 if (res.statusCode === 200) {
                     resolve(data);
-                } else if (res.statusCode === 403 && cookie) {
-                    cachedPhpSession = '';
-                    reject(new Error(`SISKAPERBAPO 403 Forbidden`));
                 } else {
                     reject(new Error(`SISKAPERBAPO responded with status ${res.statusCode}`));
                 }
@@ -245,7 +194,6 @@ app.get('/api/harga', async (req, res) => {
 
     } catch (error) {
         console.warn(`[SISKAPERBAPO FETCH WARN] ${error.message}`);
-        cachedPhpSession = '';
         res.json({
             success: false,
             error: error.message,
