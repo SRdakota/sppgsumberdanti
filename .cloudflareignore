@@ -1,0 +1,8 @@
+node_modules
+scripts
+.git
+.gitignore
+api
+server.js
+sppgsumberdanti.zip
+package-lock.json
