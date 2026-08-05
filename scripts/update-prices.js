@@ -107,9 +107,11 @@ async function run() {
 
         const fileContent = `/**\n * DATA HARGA AUTOMATED SISKAPERBAPO (${list.length} ITEMS)\n * Updated at: ${new Date().toISOString()}\n */\n\nconst dataKomoditas = ` + JSON.stringify(list, null, 2) + `;\n`;
 
-        fs.writeFileSync('data.js', fileContent);
-        fs.writeFileSync('public/data.js', fileContent);
-        console.log(`Successfully updated data.js and public/data.js with ${list.length} items!`);
+        fs.writeFileSync('js/data.js', fileContent);
+        if (fs.existsSync('public/js')) {
+            fs.writeFileSync('public/js/data.js', fileContent);
+        }
+        console.log(`Successfully updated js/data.js and public/js/data.js with ${list.length} items!`);
 
     } catch (err) {
         console.error('Error during price update:', err.message);
