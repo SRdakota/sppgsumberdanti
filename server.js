@@ -1,25 +1,17 @@
-/**
- * BACKEND PROXY SERVER
- * Pantauan Harga Pasar - Kota Jember
- * 
- * Mengambil data harga dari SISKAPERBAPO Jatim via endpoint internal,
- * mem-parse HTML response menjadi JSON, dan menyajikan via REST API.
- * 
- * Endpoint: GET /api/harga?kabkota=jemberkab&tanggal=2026-08-05
- * 
- * Cache: Data di-cache selama 3 menit.
- */
-
 const express = require('express');
 const cors = require('cors');
 const { parse } = require('node-html-parser');
 const http = require('https');
+const path = require('path');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Enable CORS for frontend
 app.use(cors());
+
+// Serve static files
+app.use(express.static(path.join(__dirname, '.')));
 
 // ==========================================
 // CACHE
@@ -107,7 +99,6 @@ function parseHargaTable(html) {
     let currentKategori = '';
     let nomor = 0;
 
-    // Extract header info
     const headerEl = root.querySelector('h3.page-header');
     const headerText = headerEl ? headerEl.text.trim() : '';
     const pasarEl = root.querySelector('.pasar');
@@ -125,27 +116,20 @@ function parseHargaTable(html) {
         const perubahanRpText = cells[5].text.trim();
         const perubahanPctText = cells[6].text.replace(/%/g, '').trim();
 
-        // Parse name - remove leading "- "
         const nama = namaRaw.replace(/^-\s*/, '').trim();
-
-        // Parse prices - remove dots as thousand separator
         const hargaKemarin = parsePrice(hargaKemarinText);
         const hargaSekarang = parsePrice(hargaSekarangText);
         const perubahanRp = parsePrice(perubahanRpText);
 
-        // Get commodity-id if available
         const span = cells[1].querySelector('[data-commodity-id]');
         const commodityId = span ? span.getAttribute('data-commodity-id') : null;
 
-        // Determine if this is a category header or item
         if (noText && !satuan && hargaKemarin === 0 && hargaSekarang === 0) {
-            // This is a category header row
             currentKategori = nama;
             nomor++;
             continue;
         }
 
-        // Skip items with zero prices (they are usually category headers without data)
         if (hargaSekarang === 0 && hargaKemarin === 0 && !commodityId) {
             if (noText) {
                 currentKategori = nama;
@@ -177,7 +161,6 @@ function parseHargaTable(html) {
 
 function parsePrice(text) {
     if (!text || text === '-' || text === '') return 0;
-    // Remove dots (thousand separator) and replace comma with dot for decimals
     const cleaned = text.replace(/\./g, '').replace(',', '.').trim();
     return parseFloat(cleaned) || 0;
 }
@@ -186,18 +169,11 @@ function parsePrice(text) {
 // API ROUTES
 // ==========================================
 
-/**
- * GET /api/harga
- * Query params:
- *   - kabkota: code area (default: jemberkab)
- *   - tanggal: YYYY-MM-DD (default: today)
- */
 app.get('/api/harga', async (req, res) => {
     try {
         const kabkota = req.query.kabkota || 'jemberkab';
         const tanggal = req.query.tanggal || new Date().toISOString().split('T')[0];
 
-        // Check cache first
         const cacheKey = getCacheKey(kabkota, tanggal);
         const cached = getCached(cacheKey);
         if (cached) {
@@ -209,17 +185,11 @@ app.get('/api/harga', async (req, res) => {
             });
         }
 
-        // Fetch from SISKAPERBAPO
         console.log(`[${new Date().toLocaleTimeString()}] Fetching data for ${kabkota} on ${tanggal}...`);
         const html = await fetchFromSiskaperbapo(kabkota, tanggal);
-
-        // Parse HTML to JSON
         const data = parseHargaTable(html);
 
-        // Store in cache
         setCache(cacheKey, data);
-
-        console.log(`[${new Date().toLocaleTimeString()}] Parsed ${data.totalItems} items for ${kabkota}`);
 
         res.json({
             success: true,
@@ -236,10 +206,6 @@ app.get('/api/harga', async (req, res) => {
     }
 });
 
-/**
- * GET /api/status
- * Health check endpoint
- */
 app.get('/api/status', (req, res) => {
     res.json({
         status: 'ok',
@@ -249,23 +215,16 @@ app.get('/api/status', (req, res) => {
     });
 });
 
-// Serve static files (frontend)
-app.use(express.static('.'));
-
-// ==========================================
-// START SERVER
-// ==========================================
-app.listen(PORT, () => {
-    console.log(`
-╔══════════════════════════════════════════════════╗
-║   Pantauan Harga Pasar - Backend Proxy           ║
-║   Server running on http://localhost:${PORT}        ║
-║                                                  ║
-║   API:  http://localhost:${PORT}/api/harga          ║
-║   Web:  http://localhost:${PORT}                    ║
-║                                                  ║
-║   Cache duration: 3 minutes                      ║
-║   Source: SISKAPERBAPO Jatim                      ║
-╚══════════════════════════════════════════════════╝
-    `);
+// Serve index.html for root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+// Export app for Vercel serverless / module compatibility
+module.exports = app;
+
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
