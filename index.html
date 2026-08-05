@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pantauan Harga Pasar Kota Jember - Data dari SISKAPERBAPO Jawa Timur">
+    <title>Pantauan Harga Pasar - Kota Jember</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3h18v18H3zM3 9h18M9 21V9"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="header-title">Pantauan Harga Pasar</h1>
+                    <p class="header-subtitle">Kota Jember &bull; Jawa Timur</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    <span id="currentDate">Loading...</span>
+                </div>
+                <div id="liveStatus" class="live-status loading">
+                    <span class="live-dot"></span>
+                    <span id="liveStatusText">Menghubungkan...</span>
+                </div>
+                <div class="header-tabs">
+                    <button class="tab-btn active" data-tab="iframe">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        IFrame Embed
+                    </button>
+                    <button class="tab-btn" data-tab="dashboard">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                        Dashboard Lokal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab: IFrame Embed -->
+    <section id="tab-iframe" class="tab-content active">
+        <div class="container">
+            <div class="info-banner">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                </div>
+                <div>
+                    <strong>Mode IFrame Embed</strong>
+                    <p>Mencoba menampilkan halaman SISKAPERBAPO langsung di sini. Jika halaman tidak muncul atau terblokir, gunakan tab <strong>"Dashboard Lokal"</strong> sebagai alternatif.</p>
+                </div>
+            </div>
+
+            <div class="iframe-container">
+                <div class="iframe-loading" id="iframeLoading">
+                    <div class="spinner"></div>
+                    <p>Memuat halaman SISKAPERBAPO...</p>
+                </div>
+                <div class="iframe-error" id="iframeError" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="15" y1="9" x2="9" y2="15"/>
+                        <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                    <h3>IFrame Diblokir</h3>
+                    <p>Website SISKAPERBAPO memblokir tampilan via iframe karena kebijakan keamanan (X-Frame-Options). Ini adalah hal yang normal pada website pemerintah.</p>
+                    <div class="error-actions">
+                        <a href="https://siskaperbapo.jatimprov.go.id/harga/tabel" target="_blank" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                            Buka SISKAPERBAPO di Tab Baru
+                        </a>
+                        <button class="btn btn-secondary" onclick="switchTab('dashboard')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                            </svg>
+                            Lihat Dashboard Lokal
+                        </button>
+                    </div>
+                </div>
+                <iframe 
+                    id="siskaperbapoFrame"
+                    src="https://siskaperbapo.jatimprov.go.id/harga/tabel" 
+                    title="SISKAPERBAPO - Harga Pasar Jawa Timur"
+                    sandbox="allow-scripts allow-same-origin"
+                    loading="lazy"
+                ></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab: Dashboard Lokal -->
+    <section id="tab-dashboard" class="tab-content">
+        <div class="container">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card stat-card-1">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                            <line x1="7" y1="7" x2="7.01" y2="7"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Komoditas</span>
+                        <span class="stat-value" id="totalKomoditas">0</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card-2">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Kategori</span>
+                        <span class="stat-value" id="totalKategori">0</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card-3">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Harga Tertinggi</span>
+                        <span class="stat-value" id="hargaTertinggi">-</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card-4">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
+                            <polyline points="17 18 23 18 23 12"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Ada HET</span>
+                        <span class="stat-value" id="totalHET">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Data Banner -->
+            <div class="info-banner info-banner-live" id="liveBanner">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <div class="live-banner-content">
+                    <div>
+                        <strong>Kolom Bapokting — Data SISKAPERBAPO</strong>
+                        <p>Kolom <strong>Bapokting</strong> diambil langsung dari SISKAPERBAPO Disperindag Jatim. Auto-refresh setiap 3 menit.</p>
+                        <p id="pasarInfo" class="pasar-info" style="display:none;"></p>
+                    </div>
+                    <div class="live-banner-actions">
+                        <span id="lastUpdateTime" class="last-update">Belum update</span>
+                        <button id="refreshBtn" class="btn btn-refresh" title="Refresh data">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                <polyline points="23 4 23 10 17 10"/>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-section">
+                <div class="table-header">
+                    <div class="table-title">
+                        <h2>Harga Bahan Pokok - Kota Jember</h2>
+                        <p class="table-date" id="tableDate">Data per: -</p>
+                    </div>
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="Cari komoditas..." />
+                        </div>
+                        <select id="categoryFilter" class="filter-select">
+                            <option value="all">Semua Kategori</option>
+                            <!-- Opsi akan diisi otomatis oleh JavaScript dari data -->
+                        </select>
+                        <select id="satuanFilter" class="filter-select">
+                            <option value="all">Semua Satuan</option>
+                            <!-- Opsi akan diisi otomatis oleh JavaScript dari data -->
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="priceTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kategori</th>
+                                <th>Nama Barang</th>
+                                <th>Satuan</th>
+                                <th>Bapokting</th>
+                                <th>Pasar/Grosir</th>
+                                <th>Swalayan</th>
+                                <th>Online</th>
+                                <th>HET</th>
+                            </tr>
+                        </thead>
+                        <tbody id="priceTableBody">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Source Info -->
+            <div class="source-info">
+                <p>
+                    <strong>Sumber Data:</strong> 
+                    <a href="https://siskaperbapo.jatimprov.go.id" target="_blank">SISKAPERBAPO - Disperindag Jawa Timur</a>
+                </p>
+                <p class="source-note">
+                    Untuk mendapatkan data real-time, diperlukan integrasi backend (web scraping) atau akses API resmi dari Disperindag Jawa Timur.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Pantauan Harga Pasar Kota Jember &bull; Data: SISKAPERBAPO Jatim</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
