@@ -100,9 +100,10 @@ function parseHargaTable(html) {
         const perubahanRp = parsePrice(cells[5]);
         const perubahanPctText = cells[6].replace(/%/g, '').trim();
 
-        if (noText && !satuan && hargaKemarin === 0 && hargaSekarang === 0) {
+        const isCategoryHeader = /^\d+/.test(noText);
+        if (isCategoryHeader) {
             currentKategori = nama;
-            continue;
+            if (!satuan) continue;
         }
 
         if (satuan) {

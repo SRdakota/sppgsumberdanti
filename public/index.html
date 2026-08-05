@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    <!-- Plus Pattern Background (Layer Paling Belakang) -->
+    <div class="background-plus-layer" aria-hidden="true"></div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -33,6 +36,13 @@
                     <span class="live-dot"></span>
                     <span id="liveStatusText">Menghubungkan...</span>
                 </div>
+                <button id="loginBtn" class="btn-login">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span id="loginBtnText">Login Admin</span>
+                </button>
             </div>
         </div>
     </header>
@@ -40,84 +50,19 @@
     <!-- Main Dashboard -->
     <main class="main-content">
         <div class="container">
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card stat-card-1">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-                            <line x1="7" y1="7" x2="7.01" y2="7" />
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Total Komoditas</span>
-                        <span class="stat-value" id="totalKomoditas">0</span>
-                    </div>
-                </div>
-                <div class="stat-card stat-card-2">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7" />
-                            <rect x="14" y="3" width="7" height="7" />
-                            <rect x="14" y="14" width="7" height="7" />
-                            <rect x="3" y="14" width="7" height="7" />
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Kategori</span>
-                        <span class="stat-value" id="totalKategori">0</span>
-                    </div>
-                </div>
-                <div class="stat-card stat-card-3">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                            <polyline points="17 6 23 6 23 12" />
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Harga Tertinggi</span>
-                        <span class="stat-value" id="hargaTertinggi">-</span>
-                    </div>
-                </div>
-                <div class="stat-card stat-card-4">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
-                            <polyline points="17 18 23 18 23 12" />
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Ada HET</span>
-                        <span class="stat-value" id="totalHET">0</span>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Live Data Banner -->
             <div class="info-banner info-banner-live" id="liveBanner">
-                <div class="info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                    </svg>
-                </div>
                 <div class="live-banner-content">
                     <div>
                         <strong>Data Harga Bahan Pokok — SISKAPERBAPO</strong>
-                        <p>Data harga diambil dari SISKAPERBAPO Disperindag Jatim (Kabupaten Jember). Auto-refresh
-                            setiap 3 menit.</p>
+                        <p>Data harga diambil langsung dari SISKAPERBAPO Disperindag Jatim (Kab. Jember). Auto-refresh setiap 3 menit.</p>
                         <p id="pasarInfo" class="pasar-info" style="display:none;"></p>
                     </div>
                     <div class="live-banner-actions">
                         <span id="lastUpdateTime" class="last-update">Belum update</span>
-                        <button id="refreshBtn" class="btn btn-refresh" title="Refresh data">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"
-                                height="14">
-                                <polyline points="23 4 23 10 17 10" />
-                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-                            </svg>
-                            Refresh
-                        </button>
+                        <button id="refreshBtn" class="btn btn-refresh" title="Refresh data">Refresh</button>
                     </div>
                 </div>
             </div>
@@ -146,14 +91,16 @@
                             <option value="all">Semua Satuan</option>
                             <!-- Opsi akan diisi otomatis oleh JavaScript dari data -->
                         </select>
+                        <button id="toggleKategoriBtn" class="btn-toggle-kategori">Tampilkan Kategori</button>
+                        <button id="addCommodityBtn" class="btn-add-commodity" style="display: none;">+ Tambah Komoditas</button>
                     </div>
                 </div>
                 <div class="table-wrapper">
-                    <table id="priceTable">
+                    <table id="priceTable" class="hide-kategori-column">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kategori</th>
+                                <th class="th-kategori">Kategori</th>
                                 <th>Nama Barang</th>
                                 <th>Satuan</th>
                                 <th>Bapokting</th>
@@ -170,17 +117,7 @@
                 </div>
             </div>
 
-            <!-- Source Info -->
-            <div class="source-info">
-                <p>
-                    <strong>Sumber Data:</strong>
-                    <a href="https://siskaperbapo.jatimprov.go.id" target="_blank">SISKAPERBAPO - Disperindag Jawa
-                        Timur</a>
-                </p>
-                <p class="source-note">
-                    Data diperbarui secara berkala berdasarkan rilis resmi dari Disperindag Jawa Timur.
-                </p>
-            </div>
+
         </div>
     </main>
 
@@ -190,6 +127,142 @@
             <p>&copy; 2026 Pantauan Harga Pasar Kota Jember &bull; Data: SISKAPERBAPO Jatim</p>
         </div>
     </footer>
+
+    <!-- Modal Login Admin -->
+    <div id="loginModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Login Admin Panel</h3>
+                <button id="closeLoginModal" class="modal-close">&times;</button>
+            </div>
+            <form id="loginForm" class="modal-body">
+                <div class="form-group">
+                    <label for="adminEmail">Email / Username Admin</label>
+                    <input type="text" id="adminEmail" placeholder="admin@sppgsumberdanti.my.id" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password Admin</label>
+                    <input type="password" id="adminPassword" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <div id="loginError" class="login-error" style="display:none;"></div>
+                <button type="submit" class="btn-submit-login">Masuk ke Panel Admin</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Komoditas -->
+    <div id="addCommodityModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-card" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3>Tambah Komoditas Baru</h3>
+                <button id="closeAddCommodityModal" class="modal-close">&times;</button>
+            </div>
+            <form id="addCommodityForm" class="modal-body">
+                <div class="form-group">
+                    <label for="newKategori">Kategori Pangan</label>
+                    <select id="newKategori" required class="filter-select" style="width: 100%; padding: 10px; border: 1.5px solid var(--slate-200); border-radius: 8px;">
+                        <option value="MAKANAN POKOK">MAKANAN POKOK</option>
+                        <option value="LAUK HEWANI">LAUK HEWANI</option>
+                        <option value="LAUK NABATI">LAUK NABATI</option>
+                        <option value="SAYURAN">SAYURAN</option>
+                        <option value="BUAH-BUAHAN">BUAH-BUAHAN</option>
+                        <option value="BUMBU DAPUR">BUMBU DAPUR</option>
+                        <option value="MINYAK DAN LEMAK">MINYAK DAN LEMAK</option>
+                        <option value="__NEW_CATEGORY__">+ Tambah Kategori Baru...</option>
+                    </select>
+                </div>
+                <div class="form-group" id="customKategoriGroup" style="display: none;">
+                    <label for="customKategoriInput">Nama Kategori Baru</label>
+                    <input type="text" id="customKategoriInput" placeholder="Contoh: MINUMAN & OLAHAN">
+                </div>
+                <div class="form-group">
+                    <label for="newNama">Nama Komoditas (Tampil di Website)</label>
+                    <input type="text" id="newNama" placeholder="Contoh: Beras Premium" required>
+                </div>
+                <div class="form-group">
+                    <label for="newSatuan">Satuan</label>
+                    <input type="text" id="newSatuan" placeholder="Contoh: kg / Bungkus / Botol / Papan" required>
+                </div>
+                <div class="form-group">
+                    <label for="newSiskaperbapo">Nama BAPOKTING (SISKAPERBAPO)</label>
+                    <small style="color: var(--slate-500); font-size: 0.78rem;">*Wajib persis dengan ejaan nama komoditas di website SISKAPERBAPO jika ingin harga otomatis terhubung.</small>
+                    <input type="text" id="newSiskaperbapo" placeholder="Contoh: Beras Premium">
+                </div>
+                <div id="addCommodityError" class="login-error" style="display:none;"></div>
+                <button type="submit" class="btn-submit-login">+ Simpan Komoditas Baru</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Edit Komoditas -->
+    <div id="editCommodityModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-card" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3>Edit Informasi Komoditas</h3>
+                <button id="closeEditCommodityModal" class="modal-close">&times;</button>
+            </div>
+            <form id="editCommodityForm" class="modal-body">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="editKategori">Kategori Pangan</label>
+                    <select id="editKategori" required class="filter-select" style="width: 100%; padding: 10px; border: 1.5px solid var(--slate-200); border-radius: 8px;">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editNama">Nama Komoditas (Tampil di Website)</label>
+                    <input type="text" id="editNama" required>
+                </div>
+                <div class="form-group">
+                    <label for="editSatuan">Satuan</label>
+                    <input type="text" id="editSatuan" required>
+                </div>
+                <div class="form-group">
+                    <label for="editSiskaperbapo">Nama BAPOKTING (SISKAPERBAPO)</label>
+                    <small style="color: var(--slate-500); font-size: 0.78rem;">*Wajib persis dengan ejaan nama komoditas di website SISKAPERBAPO jika ingin terhubung otomatis.</small>
+                    <input type="text" id="editSiskaperbapo" placeholder="Contoh: Beras Premium">
+                </div>
+                <div id="editCommodityError" class="login-error" style="display:none;"></div>
+                <button type="submit" class="btn-submit-login">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Update Harga Komoditas -->
+    <div id="updatePriceModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-card" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3>Update Harga Komoditas</h3>
+                <button id="closeUpdatePriceModal" class="modal-close">&times;</button>
+            </div>
+            <form id="updatePriceForm" class="modal-body">
+                <input type="hidden" id="priceItemEditId">
+                <div style="margin-bottom: 16px; padding: 12px; background: var(--slate-100); border-radius: 8px;">
+                    <strong id="priceItemName" style="font-size: 1rem; color: var(--slate-900);">Beras Premium</strong>
+                    <div id="priceItemCategory" style="font-size: 0.8rem; color: var(--slate-500); margin-top: 2px;">Kategori: MAKANAN POKOK</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label for="editPasar">Harga Pasar / Grosir (Rp)</label>
+                        <input type="number" id="editPasar" placeholder="Contoh: 15000">
+                    </div>
+                    <div class="form-group">
+                        <label for="editSwalayan">Harga Swalayan (Rp)</label>
+                        <input type="number" id="editSwalayan" placeholder="Contoh: 16500">
+                    </div>
+                    <div class="form-group">
+                        <label for="editOnline">Harga Online (Rp)</label>
+                        <input type="number" id="editOnline" placeholder="Contoh: 17000">
+                    </div>
+                    <div class="form-group">
+                        <label for="editHetPrice">Harga HET (Rp)</label>
+                        <input type="number" id="editHetPrice" placeholder="Contoh: 14900">
+                    </div>
+                </div>
+                <div id="updatePriceError" class="login-error" style="display:none;"></div>
+                <button type="submit" class="btn-submit-login">Simpan Harga Terbaru</button>
+            </form>
+        </div>
+    </div>
 
     <script src="js/data.js"></script>
     <script src="js/script.js"></script>
