@@ -2,15 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const { parse } = require('node-html-parser');
 const http = require('https');
-const path = require('path');
 
 const app = express();
 
 // Enable CORS for frontend
 app.use(cors());
-
-// Serve static frontend files (index.html, style.css, script.js, data.js)
-app.use(express.static(path.join(__dirname, '..')));
 
 // ==========================================
 // CACHE
@@ -211,11 +207,6 @@ app.get('/api/status', (req, res) => {
         cacheEntries: Object.keys(cache).length,
         timestamp: new Date().toISOString()
     });
-});
-
-// Explicit root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 module.exports = app;
