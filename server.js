@@ -59,11 +59,15 @@ function fetchFromSiskaperbapo(kabkota, tanggal) {
             path: '/harga/tabel.nodesign/',
             method: 'POST',
             headers: {
+                'Host': 'siskaperbapo.jatimprov.go.id',
+                'Origin': 'https://siskaperbapo.jatimprov.go.id',
+                'Referer': 'https://siskaperbapo.jatimprov.go.id/harga/tabel',
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Length': Buffer.byteLength(postData),
                 'X-Requested-With': 'XMLHttpRequest',
-                'Referer': 'https://siskaperbapo.jatimprov.go.id/harga/tabel',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7'
             }
         };
 
