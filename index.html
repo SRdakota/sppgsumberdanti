@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Pantauan Harga Pasar Kota Jember - Data dari SISKAPERBAPO Jawa Timur">
-    <title>Pantauan Harga Pasar - Kota Jember</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Pantauan Harga Pasar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -15,7 +18,7 @@
             <div class="header-left">
                 <div class="logo-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 3h18v18H3zM3 9h18M9 21V9"/>
+                        <path d="M3 3h18v18H3zM3 9h18M9 21V9" />
                     </svg>
                 </div>
                 <div>
@@ -44,8 +47,8 @@
                 <div class="stat-card stat-card-1">
                     <div class="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-                            <line x1="7" y1="7" x2="7.01" y2="7"/>
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                            <line x1="7" y1="7" x2="7.01" y2="7" />
                         </svg>
                     </div>
                     <div class="stat-info">
@@ -56,10 +59,10 @@
                 <div class="stat-card stat-card-2">
                     <div class="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7"/>
-                            <rect x="14" y="3" width="7" height="7"/>
-                            <rect x="14" y="14" width="7" height="7"/>
-                            <rect x="3" y="14" width="7" height="7"/>
+                            <rect x="3" y="3" width="7" height="7" />
+                            <rect x="14" y="3" width="7" height="7" />
+                            <rect x="14" y="14" width="7" height="7" />
+                            <rect x="3" y="14" width="7" height="7" />
                         </svg>
                     </div>
                     <div class="stat-info">
@@ -70,8 +73,8 @@
                 <div class="stat-card stat-card-3">
                     <div class="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                            <polyline points="17 6 23 6 23 12"/>
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                            <polyline points="17 6 23 6 23 12" />
                         </svg>
                     </div>
                     <div class="stat-info">
@@ -82,8 +85,8 @@
                 <div class="stat-card stat-card-4">
                     <div class="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
-                            <polyline points="17 18 23 18 23 12"/>
+                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+                            <polyline points="17 18 23 18 23 12" />
                         </svg>
                     </div>
                     <div class="stat-info">
@@ -97,21 +100,23 @@
             <div class="info-banner info-banner-live" id="liveBanner">
                 <div class="info-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                     </svg>
                 </div>
                 <div class="live-banner-content">
                     <div>
                         <strong>Data Harga Bahan Pokok — SISKAPERBAPO</strong>
-                        <p>Data harga diambil dari SISKAPERBAPO Disperindag Jatim (Kabupaten Jember). Auto-refresh setiap 3 menit.</p>
+                        <p>Data harga diambil dari SISKAPERBAPO Disperindag Jatim (Kabupaten Jember). Auto-refresh
+                            setiap 3 menit.</p>
                         <p id="pasarInfo" class="pasar-info" style="display:none;"></p>
                     </div>
                     <div class="live-banner-actions">
                         <span id="lastUpdateTime" class="last-update">Belum update</span>
                         <button id="refreshBtn" class="btn btn-refresh" title="Refresh data">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                                <polyline points="23 4 23 10 17 10"/>
-                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"
+                                height="14">
+                                <polyline points="23 4 23 10 17 10" />
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                             </svg>
                             Refresh
                         </button>
@@ -128,9 +133,10 @@
                     </div>
                     <div class="table-actions">
                         <div class="search-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                                <circle cx="11" cy="11" r="8"/>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+                                height="16">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
                             </svg>
                             <input type="text" id="searchInput" placeholder="Cari komoditas..." />
                         </div>
@@ -169,8 +175,9 @@
             <!-- Source Info -->
             <div class="source-info">
                 <p>
-                    <strong>Sumber Data:</strong> 
-                    <a href="https://siskaperbapo.jatimprov.go.id" target="_blank">SISKAPERBAPO - Disperindag Jawa Timur</a>
+                    <strong>Sumber Data:</strong>
+                    <a href="https://siskaperbapo.jatimprov.go.id" target="_blank">SISKAPERBAPO - Disperindag Jawa
+                        Timur</a>
                 </p>
                 <p class="source-note">
                     Data diperbarui secara berkala berdasarkan rilis resmi dari Disperindag Jawa Timur.
@@ -189,4 +196,5 @@
     <script src="js/data.js"></script>
     <script src="js/script.js"></script>
 </body>
+
 </html>
