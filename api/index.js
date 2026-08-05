@@ -193,10 +193,11 @@ app.get('/api/harga', async (req, res) => {
         });
 
     } catch (error) {
-        console.error(`[ERROR] ${error.message}`);
-        res.status(500).json({
+        console.warn(`[SISKAPERBAPO FETCH WARN] ${error.message}`);
+        res.json({
             success: false,
-            error: error.message
+            error: error.message,
+            source: 'fallback'
         });
     }
 });
