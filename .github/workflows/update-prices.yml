@@ -1,0 +1,32 @@
+name: Auto Update SISKAPERBAPO Prices
+
+on:
+  schedule:
+    # Runs automatically every 2 hours
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run price scraper
+        run: node scripts/update-prices.js
+
+      - name: Commit and push updated prices
+        run: |
+          git config --global user.name "GitHub Action Scraper"
+          git config --global user.email "action@github.com"
+          git add data.js public/data.js
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update SISKAPERBAPO price data" && git push)

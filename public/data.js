@@ -1,6 +1,6 @@
 /**
- * DATA HARGA SELURUH KOMODITAS PASAR (67 ITEMS)
- * Kota Jember - SISKAPERBAPO Jatim
+ * DATA HARGA AUTOMATED SISKAPERBAPO (67 ITEMS)
+ * Updated at: 2026-08-05T15:15:36.648Z
  */
 
 const dataKomoditas = [
