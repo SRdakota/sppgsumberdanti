@@ -32,92 +32,12 @@
                     <span class="live-dot"></span>
                     <span id="liveStatusText">Menghubungkan...</span>
                 </div>
-                <div class="header-tabs">
-                    <button class="tab-btn" data-tab="iframe">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                            <line x1="8" y1="21" x2="16" y2="21"/>
-                            <line x1="12" y1="17" x2="12" y2="21"/>
-                        </svg>
-                        IFrame Embed
-                    </button>
-                    <button class="tab-btn active" data-tab="dashboard">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <rect x="3" y="3" width="7" height="7"/>
-                            <rect x="14" y="3" width="7" height="7"/>
-                            <rect x="14" y="14" width="7" height="7"/>
-                            <rect x="3" y="14" width="7" height="7"/>
-                        </svg>
-                        Dashboard Lokal
-                    </button>
-                </div>
             </div>
         </div>
     </header>
 
-    <!-- Tab: IFrame Embed -->
-    <section id="tab-iframe" class="tab-content">
-        <div class="container">
-            <div class="info-banner">
-                <div class="info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="16" x2="12" y2="12"/>
-                        <line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                </div>
-                <div>
-                    <strong>Mode IFrame Embed</strong>
-                    <p>Mencoba menampilkan halaman SISKAPERBAPO langsung di sini. Jika halaman tidak muncul atau terblokir, gunakan tab <strong>"Dashboard Lokal"</strong> sebagai alternatif.</p>
-                </div>
-            </div>
-
-            <div class="iframe-container">
-                <div class="iframe-loading" id="iframeLoading">
-                    <div class="spinner"></div>
-                    <p>Memuat halaman SISKAPERBAPO...</p>
-                </div>
-                <div class="iframe-error" id="iframeError" style="display: none;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48" height="48">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="15" y1="9" x2="9" y2="15"/>
-                        <line x1="9" y1="9" x2="15" y2="15"/>
-                    </svg>
-                    <h3>IFrame Diblokir</h3>
-                    <p>Website SISKAPERBAPO memblokir tampilan via iframe karena kebijakan keamanan (X-Frame-Options). Ini adalah hal yang normal pada website pemerintah.</p>
-                    <div class="error-actions">
-                        <a href="https://siskaperbapo.jatimprov.go.id/harga/tabel" target="_blank" class="btn btn-primary">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                                <polyline points="15 3 21 3 21 9"/>
-                                <line x1="10" y1="14" x2="21" y2="3"/>
-                            </svg>
-                            Buka SISKAPERBAPO di Tab Baru
-                        </a>
-                        <button class="btn btn-secondary" onclick="switchTab('dashboard')">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                                <rect x="3" y="3" width="7" height="7"/>
-                                <rect x="14" y="3" width="7" height="7"/>
-                                <rect x="14" y="14" width="7" height="7"/>
-                                <rect x="3" y="14" width="7" height="7"/>
-                            </svg>
-                            Lihat Dashboard Lokal
-                        </button>
-                    </div>
-                </div>
-                <iframe 
-                    id="siskaperbapoFrame"
-                    src="https://siskaperbapo.jatimprov.go.id/harga/tabel" 
-                    title="SISKAPERBAPO - Harga Pasar Jawa Timur"
-                    sandbox="allow-scripts allow-same-origin"
-                    loading="lazy"
-                ></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tab: Dashboard Lokal -->
-    <section id="tab-dashboard" class="tab-content active">
+    <!-- Main Dashboard -->
+    <main class="main-content">
         <div class="container">
             <!-- Stats Cards -->
             <div class="stats-grid">
@@ -182,8 +102,8 @@
                 </div>
                 <div class="live-banner-content">
                     <div>
-                        <strong>Kolom Bapokting — Data SISKAPERBAPO</strong>
-                        <p>Kolom <strong>Bapokting</strong> diambil langsung dari SISKAPERBAPO Disperindag Jatim. Auto-refresh setiap 3 menit.</p>
+                        <strong>Data Harga Bahan Pokok — SISKAPERBAPO</strong>
+                        <p>Data harga diambil dari SISKAPERBAPO Disperindag Jatim (Kabupaten Jember). Auto-refresh setiap 3 menit.</p>
                         <p id="pasarInfo" class="pasar-info" style="display:none;"></p>
                     </div>
                     <div class="live-banner-actions">
@@ -253,11 +173,11 @@
                     <a href="https://siskaperbapo.jatimprov.go.id" target="_blank">SISKAPERBAPO - Disperindag Jawa Timur</a>
                 </p>
                 <p class="source-note">
-                    Untuk mendapatkan data real-time, diperlukan integrasi backend (web scraping) atau akses API resmi dari Disperindag Jawa Timur.
+                    Data diperbarui secara berkala berdasarkan rilis resmi dari Disperindag Jawa Timur.
                 </p>
             </div>
         </div>
-    </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">

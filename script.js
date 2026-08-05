@@ -3,14 +3,12 @@
  * Kota Jember, Jawa Timur
  * 
  * Membaca data dari data.js (dataKomoditas)
- * Kolom Bapokting di-update secara live dari SISKAPERBAPO via backend proxy.
+ * Data di-update secara live dari SISKAPERBAPO via backend proxy.
  * Auto-refresh setiap 3 menit.
  */
 
-// ==========================================
 // CONFIG
-// ==========================================
-const API_BASE = 'http://localhost:3001';
+const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3001' : '';
 const KABKOTA = 'jemberkab';
 const REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
 
@@ -18,9 +16,7 @@ let lastFetchTime = null;
 let isLive = false;
 let refreshTimer = null;
 
-// ==========================================
 // FORMAT HELPERS
-// ==========================================
 function formatRp(value) {
     if (value === null || value === undefined || value === '') return '-';
     return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
@@ -35,12 +31,12 @@ function formatWaktu(date) {
     return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
-// ==========================================
 // POPULATE FILTER DROPDOWNS
-// ==========================================
 function populateFilters() {
     const categoryFilter = document.getElementById('categoryFilter');
     const satuanFilter = document.getElementById('satuanFilter');
+
+    if (!categoryFilter || !satuanFilter) return;
 
     const kategoriUnik = [...new Set(dataKomoditas.map(item => item.kategori))];
     kategoriUnik.forEach(kat => {
@@ -59,9 +55,7 @@ function populateFilters() {
     });
 }
 
-// ==========================================
 // UPDATE STATS CARDS
-// ==========================================
 function updateStats(data) {
     const totalEl = document.getElementById('totalKomoditas');
     if (totalEl) totalEl.textContent = data.length;
@@ -85,9 +79,7 @@ function updateStats(data) {
     if (hetEl) hetEl.textContent = totalHET;
 }
 
-// ==========================================
 // RENDER TABLE
-// ==========================================
 function renderTable(data) {
     const tbody = document.getElementById('priceTableBody');
     if (!tbody) return;
@@ -130,7 +122,6 @@ function renderTable(data) {
             </td>`;
         }
 
-        // Bapokting cell with live indicator
         let bapoktingContent;
         if (item.bapokting !== null && item.bapokting !== undefined) {
             const liveClass = isLive ? 'bapokting-live' : '';
@@ -163,16 +154,13 @@ function renderTable(data) {
     updateStats(data);
 }
 
-// ==========================================
-// FETCH LIVE BAPOKTING DATA
-// ==========================================
+// FETCH LIVE DATA
 async function fetchBapokting() {
     const statusEl = document.getElementById('liveStatus');
     const statusTextEl = document.getElementById('liveStatusText');
     const lastUpdateEl = document.getElementById('lastUpdateTime');
 
     try {
-        // Show loading state
         if (statusEl) statusEl.className = 'live-status loading';
         if (statusTextEl) statusTextEl.textContent = 'Mengambil data...';
 
@@ -182,27 +170,24 @@ async function fetchBapokting() {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
-
         if (!result.success) throw new Error(result.error || 'Unknown error');
 
-        // Map SISKAPERBAPO data to our dataKomoditas
         let matchCount = 0;
         dataKomoditas.forEach(item => {
             if (!item.siskaperbapoNama) return;
 
             const match = result.items.find(siska => {
-                // Case-insensitive partial match
                 return siska.nama.toLowerCase().includes(item.siskaperbapoNama.toLowerCase()) ||
                        item.siskaperbapoNama.toLowerCase().includes(siska.nama.toLowerCase());
             });
 
             if (match && match.hargaSekarang > 0) {
                 item.bapokting = match.hargaSekarang;
+                item.pasar = match.hargaSekarang;
                 matchCount++;
             }
         });
 
-        // Update status
         isLive = true;
         lastFetchTime = new Date();
         if (statusEl) statusEl.className = 'live-status online';
@@ -212,7 +197,6 @@ async function fetchBapokting() {
         }
         if (lastUpdateEl) lastUpdateEl.textContent = `Update: ${formatWaktu(lastFetchTime)}`;
 
-        // Update pasar info
         const pasarInfoEl = document.getElementById('pasarInfo');
         if (pasarInfoEl && result.pasar) {
             pasarInfoEl.textContent = `Pasar: ${result.pasar}`;
@@ -224,31 +208,16 @@ async function fetchBapokting() {
     } catch (error) {
         isLive = false;
         if (statusEl) statusEl.className = 'live-status offline';
-        if (statusTextEl) statusTextEl.textContent = 'Offline — data statis';
-        if (lastUpdateEl) lastUpdateEl.textContent = 'Backend tidak tersedia';
+        if (statusTextEl) statusTextEl.textContent = 'Offline — data terstruktur';
+        if (lastUpdateEl) lastUpdateEl.textContent = 'Data Terstruktur';
 
         console.warn(`[${formatWaktu(new Date())}] Failed to fetch Bapokting:`, error.message);
     }
 
-    // Re-render table with updated data
     filterData();
 }
 
-// ==========================================
-// TAB SWITCHING
-// ==========================================
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tab === tabName);
-    });
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.toggle('active', content.id === `tab-${tabName}`);
-    });
-}
-
-// ==========================================
 // SEARCH & FILTER
-// ==========================================
 function filterData() {
     const searchTerm = (document.getElementById('searchInput')?.value || '').toLowerCase();
     const category = document.getElementById('categoryFilter')?.value || 'all';
@@ -264,60 +233,17 @@ function filterData() {
     renderTable(filtered);
 }
 
-// ==========================================
-// IFRAME HANDLING
-// ==========================================
-function setupIframe() {
-    const iframe = document.getElementById('siskaperbapoFrame');
-    const loading = document.getElementById('iframeLoading');
-    const error = document.getElementById('iframeError');
-
-    if (!iframe) return;
-
-    const timeoutId = setTimeout(() => {
-        if (loading) loading.style.display = 'none';
-        if (error) error.style.display = 'flex';
-        iframe.style.display = 'none';
-    }, 8000);
-
-    iframe.addEventListener('load', () => {
-        clearTimeout(timeoutId);
-        try {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            if (iframeDoc) {
-                if (loading) loading.style.display = 'none';
-            }
-        } catch (e) {
-            if (loading) loading.style.display = 'none';
-        }
-    });
-
-    iframe.addEventListener('error', () => {
-        clearTimeout(timeoutId);
-        if (loading) loading.style.display = 'none';
-        if (error) error.style.display = 'flex';
-        iframe.style.display = 'none';
-    });
-}
-
-// ==========================================
 // INITIALIZE
-// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Set current date
     const now = new Date();
     const dateEl = document.getElementById('currentDate');
     const tableDateEl = document.getElementById('tableDate');
     if (dateEl) dateEl.textContent = formatTanggal(now);
     if (tableDateEl) tableDateEl.textContent = `Data per: ${formatTanggal(now)}`;
 
-    // Populate filter dropdowns from data
     populateFilters();
-
-    // Render initial table with static data
     renderTable(dataKomoditas);
 
-    // Setup search & filter listeners
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
     const satuanFilter = document.getElementById('satuanFilter');
@@ -325,21 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (categoryFilter) categoryFilter.addEventListener('change', filterData);
     if (satuanFilter) satuanFilter.addEventListener('change', filterData);
 
-    // Setup tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-    });
-
-    // Setup iframe
-    setupIframe();
-
-    // Fetch live Bapokting data
     fetchBapokting();
-
-    // Auto-refresh every 3 minutes
     refreshTimer = setInterval(fetchBapokting, REFRESH_INTERVAL_MS);
 
-    // Manual refresh button
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
@@ -347,6 +261,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Make switchTab available globally for inline onclick
-window.switchTab = switchTab;
