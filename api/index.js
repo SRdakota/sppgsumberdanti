@@ -34,11 +34,17 @@ function setCache(key, data) {
 }
 
 // ==========================================
-// FETCH FROM SISKAPERBAPO
+// FETCH FROM SISKAPERBAPO WITH DETAILED LOGS
 // ==========================================
-function fetchFromSiskaperbapo(kabkota, tanggal) {
-    return new Promise((resolve, reject) => {
+function fetchFromSiskaperbapoWithLog(kabkota, tanggal) {
+    return new Promise((resolve) => {
+        const logSteps = [];
+        const startTime = Date.now();
+
+        logSteps.push(`[${new Date().toISOString()}] Initiating fetch for kabkota=${kabkota}, tanggal=${tanggal}`);
+
         const postData = `tanggal=${encodeURIComponent(tanggal)}&kabkota=${encodeURIComponent(kabkota)}&pasar=`;
+        logSteps.push(`[Payload] ${postData}`);
 
         const options = {
             hostname: 'siskaperbapo.jatimprov.go.id',
@@ -58,25 +64,56 @@ function fetchFromSiskaperbapo(kabkota, tanggal) {
             }
         };
 
+        logSteps.push(`[Headers Sent] Host: siskaperbapo.jatimprov.go.id, User-Agent: Chrome/122.0`);
+
         const req = http.request(options, (res) => {
+            logSteps.push(`[Response Received] Status: ${res.statusCode} ${res.statusMessage}`);
+            logSteps.push(`[Response Headers] Server: ${res.headers['server'] || 'N/A'}, Cloudflare-Ray: ${res.headers['cf-ray'] || 'N/A'}`);
+
             let data = '';
             res.on('data', (chunk) => { data += chunk; });
             res.on('end', () => {
+                const duration = Date.now() - startTime;
+                logSteps.push(`[Duration] ${duration}ms, Response size: ${data.length} bytes`);
+
                 if (res.statusCode === 200) {
-                    resolve(data);
+                    resolve({
+                        success: true,
+                        statusCode: 200,
+                        html: data,
+                        logs: logSteps
+                    });
                 } else {
-                    reject(new Error(`SISKAPERBAPO responded with status ${res.statusCode}`));
+                    logSteps.push(`[Reason] Server SISKAPERBAPO returned HTTP ${res.statusCode}. Cloudflare WAF/Geo-blocking active on hosting datacenter IP.`);
+                    resolve({
+                        success: false,
+                        statusCode: res.statusCode,
+                        error: `SISKAPERBAPO responded with status ${res.statusCode}`,
+                        logs: logSteps
+                    });
                 }
             });
         });
 
         req.on('error', (err) => {
-            reject(err);
+            logSteps.push(`[Network Error] ${err.message}`);
+            resolve({
+                success: false,
+                statusCode: 0,
+                error: err.message,
+                logs: logSteps
+            });
         });
 
         req.setTimeout(15000, () => {
             req.destroy();
-            reject(new Error('Request to SISKAPERBAPO timed out'));
+            logSteps.push(`[Timeout] Request to SISKAPERBAPO timed out after 15s`);
+            resolve({
+                success: false,
+                statusCode: 408,
+                error: 'Request to SISKAPERBAPO timed out',
+                logs: logSteps
+            });
         });
 
         req.write(postData);
@@ -180,26 +217,54 @@ app.get('/api/harga', async (req, res) => {
             });
         }
 
-        console.log(`[${new Date().toLocaleTimeString()}] Fetching data for ${kabkota} on ${tanggal}...`);
-        const html = await fetchFromSiskaperbapo(kabkota, tanggal);
-        const data = parseHargaTable(html);
+        const fetchResult = await fetchFromSiskaperbapoWithLog(kabkota, tanggal);
 
-        setCache(cacheKey, data);
+        if (fetchResult.success) {
+            const data = parseHargaTable(fetchResult.html);
+            setCache(cacheKey, data);
 
-        res.json({
-            success: true,
-            source: 'live',
-            ...data
-        });
+            res.json({
+                success: true,
+                source: 'live',
+                debugLogs: fetchResult.logs,
+                ...data
+            });
+        } else {
+            res.json({
+                success: false,
+                source: 'fallback',
+                error: fetchResult.error,
+                statusCode: fetchResult.statusCode,
+                debugLogs: fetchResult.logs,
+                serverInfo: {
+                    ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+                    timestamp: new Date().toISOString(),
+                    reason: 'Cloudflare WAF / Geo-blocking pada Datacenter IP'
+                }
+            });
+        }
 
     } catch (error) {
-        console.warn(`[SISKAPERBAPO FETCH WARN] ${error.message}`);
         res.json({
             success: false,
+            source: 'fallback',
             error: error.message,
-            source: 'fallback'
+            debugLogs: [`[Fatal Error] ${error.message}`]
         });
     }
+});
+
+// DEBUG ENDPOINT FOR LIVE INSPECTION
+app.get('/api/debug', async (req, res) => {
+    const kabkota = req.query.kabkota || 'jemberkab';
+    const tanggal = req.query.tanggal || new Date().toISOString().split('T')[0];
+    const result = await fetchFromSiskaperbapoWithLog(kabkota, tanggal);
+    res.json({
+        timestamp: new Date().toISOString(),
+        serverNodeVersion: process.version,
+        targetUrl: 'https://siskaperbapo.jatimprov.go.id/harga/tabel.nodesign/',
+        ...result
+    });
 });
 
 app.get('/api/status', (req, res) => {
