@@ -1,6 +1,6 @@
 /**
  * DATA HARGA SUPABASE & SISKAPERBAPO AUTOMATED (93 ITEMS)
- * Updated at: 2026-08-16T10:37:30.064Z
+ * Updated at: 2026-08-16T10:41:50.460Z
  */
 
 const dataKomoditas = [
@@ -1097,20 +1097,6 @@ const dataKomoditas = [
     "updated_at": "2026-08-10T15:49:37.565+00:00"
   },
   {
-    "id": 62,
-    "kategori": "BUMBU DAPUR",
-    "nama": "Cabai Merah Besar",
-    "satuan": "kg",
-    "bapokting": 32600,
-    "pasar": 32600,
-    "swalayan": null,
-    "online": null,
-    "het": null,
-    "siskaperbapo_nama": "Cabe Merah Besar",
-    "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:37.722+00:00"
-  },
-  {
     "id": 61,
     "kategori": "BUMBU DAPUR",
     "nama": "Bawang Putih",
@@ -1179,6 +1165,20 @@ const dataKomoditas = [
     "siskaperbapo_nama": "Gula Kristal Putih",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
     "updated_at": "2026-08-10T15:49:38.482+00:00"
+  },
+  {
+    "id": 62,
+    "kategori": "BUMBU DAPUR",
+    "nama": "Cabe Merah Besar",
+    "satuan": "kg",
+    "bapokting": 32600,
+    "pasar": 32600,
+    "swalayan": null,
+    "online": null,
+    "het": null,
+    "siskaperbapo_nama": "Cabe Merah Besar",
+    "created_at": "2026-08-05T17:02:59.49198+00:00",
+    "updated_at": "2026-08-16T10:40:33.618+00:00"
   },
   {
     "id": 4,
