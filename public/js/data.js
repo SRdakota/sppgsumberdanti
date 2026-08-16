@@ -1,6 +1,6 @@
 /**
  * DATA HARGA SUPABASE & SISKAPERBAPO AUTOMATED (93 ITEMS)
- * Updated at: 2026-08-16T10:41:50.460Z
+ * Updated at: 2026-08-16T10:42:00.103Z
  */
 
 const dataKomoditas = [
