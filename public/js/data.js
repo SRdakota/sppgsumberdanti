@@ -1,6 +1,6 @@
 /**
  * DATA HARGA SUPABASE & SISKAPERBAPO AUTOMATED (93 ITEMS)
- * Updated at: 2026-08-18T15:23:29.177Z
+ * Updated at: 2026-08-18T15:27:16.535Z
  */
 
 const dataKomoditas = [
@@ -915,20 +915,6 @@ const dataKomoditas = [
     "updated_at": "2026-08-05T17:02:59.49198+00:00"
   },
   {
-    "id": 6,
-    "kategori": "MAKANAN POKOK",
-    "nama": "Kentang",
-    "satuan": "kg",
-    "bapokting": 15600,
-    "pasar": 15600,
-    "swalayan": null,
-    "online": null,
-    "het": null,
-    "siskaperbapo_nama": "KENTANG",
-    "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:34.793+00:00"
-  },
-  {
     "id": 11,
     "kategori": "LAUK HEWANI",
     "nama": "Daging Ayam Ras",
@@ -940,7 +926,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Daging Ayam Ras",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:35.241+00:00"
+    "updated_at": "2026-08-18T15:23:23.675+00:00"
   },
   {
     "id": 15,
@@ -954,7 +940,7 @@ const dataKomoditas = [
     "het": 27000,
     "siskaperbapo_nama": "Telur Ayam Ras",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:35.494+00:00"
+    "updated_at": "2026-08-18T15:23:23.969+00:00"
   },
   {
     "id": 16,
@@ -968,7 +954,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Telur Ayam Kampung",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:35.748+00:00"
+    "updated_at": "2026-08-18T15:23:24.342+00:00"
   },
   {
     "id": 18,
@@ -982,7 +968,7 @@ const dataKomoditas = [
     "het": 140000,
     "siskaperbapo_nama": "Daging Sapi Paha Belakang",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:35.987+00:00"
+    "updated_at": "2026-08-18T15:23:24.525+00:00"
   },
   {
     "id": 23,
@@ -996,7 +982,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Ikan Kembung",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:36.209+00:00"
+    "updated_at": "2026-08-18T15:23:24.746+00:00"
   },
   {
     "id": 24,
@@ -1010,7 +996,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Ikan Bandeng",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:36.36+00:00"
+    "updated_at": "2026-08-18T15:23:24.946+00:00"
   },
   {
     "id": 28,
@@ -1024,7 +1010,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "KACANG HIJAU",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:36.508+00:00"
+    "updated_at": "2026-08-18T15:23:25.148+00:00"
   },
   {
     "id": 31,
@@ -1038,7 +1024,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Kedelai Impor",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:36.658+00:00"
+    "updated_at": "2026-08-18T15:23:25.602+00:00"
   },
   {
     "id": 33,
@@ -1052,7 +1038,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "WORTEL",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:36.834+00:00"
+    "updated_at": "2026-08-18T15:23:25.768+00:00"
   },
   {
     "id": 34,
@@ -1066,7 +1052,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "BUNCIS",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:36.982+00:00"
+    "updated_at": "2026-08-18T15:23:25.95+00:00"
   },
   {
     "id": 35,
@@ -1080,7 +1066,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "KOL/KUBIS",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:37.205+00:00"
+    "updated_at": "2026-08-18T15:23:26.11+00:00"
   },
   {
     "id": 43,
@@ -1094,7 +1080,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Tomat Merah",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:37.565+00:00"
+    "updated_at": "2026-08-18T15:23:26.283+00:00"
   },
   {
     "id": 61,
@@ -1108,7 +1094,21 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Bawang Putih Sinco/Honan",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:37.878+00:00"
+    "updated_at": "2026-08-18T15:23:26.448+00:00"
+  },
+  {
+    "id": 6,
+    "kategori": "MAKANAN POKOK",
+    "nama": "Kentang",
+    "satuan": "kg",
+    "bapokting": 15600,
+    "pasar": 15600,
+    "swalayan": null,
+    "online": null,
+    "het": null,
+    "siskaperbapo_nama": "KENTANG",
+    "created_at": "2026-08-05T17:02:59.49198+00:00",
+    "updated_at": "2026-08-18T15:23:23.358+00:00"
   },
   {
     "id": 63,
@@ -1122,7 +1122,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Cabe Merah Keriting",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.029+00:00"
+    "updated_at": "2026-08-18T15:23:26.599+00:00"
   },
   {
     "id": 64,
@@ -1136,7 +1136,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Cabe Rawit Merah",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.177+00:00"
+    "updated_at": "2026-08-18T15:23:26.752+00:00"
   },
   {
     "id": 2,
@@ -1150,7 +1150,7 @@ const dataKomoditas = [
     "het": 14900,
     "siskaperbapo_nama": "Beras Premium",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.33+00:00"
+    "updated_at": "2026-08-18T15:23:26.954+00:00"
   },
   {
     "id": 80,
@@ -1164,7 +1164,7 @@ const dataKomoditas = [
     "het": 17500,
     "siskaperbapo_nama": "Gula Kristal Putih",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.482+00:00"
+    "updated_at": "2026-08-18T15:23:27.108+00:00"
   },
   {
     "id": 62,
@@ -1178,7 +1178,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Cabe Merah Besar",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-16T10:40:33.618+00:00"
+    "updated_at": "2026-08-18T15:23:27.259+00:00"
   },
   {
     "id": 4,
@@ -1192,7 +1192,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Jagung Pipilan Kering",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:34.289+00:00"
+    "updated_at": "2026-08-18T15:23:27.64+00:00"
   },
   {
     "id": 91,
@@ -1220,7 +1220,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Daging Ayam Kampung",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.64+00:00"
+    "updated_at": "2026-08-18T15:23:27.804+00:00"
   },
   {
     "id": 30,
@@ -1234,7 +1234,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "KACANG TANAH",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.792+00:00"
+    "updated_at": "2026-08-18T15:23:27.964+00:00"
   },
   {
     "id": 88,
@@ -1248,7 +1248,7 @@ const dataKomoditas = [
     "het": 15700,
     "siskaperbapo_nama": "Minyak Goreng Kemasan Premium",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:38.942+00:00"
+    "updated_at": "2026-08-18T15:23:28.136+00:00"
   },
   {
     "id": 92,
@@ -1262,7 +1262,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": " Minyak Goreng Curah",
     "created_at": "2026-08-05T17:18:10.767024+00:00",
-    "updated_at": "2026-08-10T15:49:39.091+00:00"
+    "updated_at": "2026-08-18T15:23:28.292+00:00"
   },
   {
     "id": 93,
@@ -1276,7 +1276,7 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": " Minyak Goreng Kemasan Sederhana",
     "created_at": "2026-08-05T17:19:20.911035+00:00",
-    "updated_at": "2026-08-10T15:49:39.24+00:00"
+    "updated_at": "2026-08-18T15:23:28.491+00:00"
   },
   {
     "id": 1,
@@ -1290,7 +1290,7 @@ const dataKomoditas = [
     "het": 12500,
     "siskaperbapo_nama": "Beras Medium",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:39.388+00:00"
+    "updated_at": "2026-08-18T15:23:28.87+00:00"
   },
   {
     "id": 60,
@@ -1304,6 +1304,6 @@ const dataKomoditas = [
     "het": null,
     "siskaperbapo_nama": "Bawang Merah",
     "created_at": "2026-08-05T17:02:59.49198+00:00",
-    "updated_at": "2026-08-10T15:49:39.539+00:00"
+    "updated_at": "2026-08-18T15:23:29.023+00:00"
   }
 ];
