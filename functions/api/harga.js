@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
         postData.append('kabkota', kabkota);
         postData.append('pasar', '');
 
-        const response = await fetch('https://siskaperbapo.jatimprov.go.id/harga/tabel.nodesign/', {
+        const response = await fetch('https://siskaperbapo.jatimprov.go.id/harga/tabel.nodesign', {
             method: 'POST',
             headers: {
                 'Host': 'siskaperbapo.jatimprov.go.id',
